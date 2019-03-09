@@ -1,0 +1,227 @@
+
+
+--Just to make sure everything is OK
+ALTER TABLE CUSTOMER DROP COLUMN CustCity;
+ALTER TABLE CustCard DROP COLUMN IdCustomer;
+ALTER TABLE CustCard DROP COLUMN TypeOfCard;
+ALTER TABLE Employee DROP COLUMN EmpCity;
+ALTER TABLE SaleOrder DROP COLUMN IdCustomer;
+ALTER TABLE SaleOrder DROP COLUMN IdEmployee;
+ALTER TABLE SaleOrder DROP COLUMN IdShipCity;
+ALTER TABLE Flower DROP COLUMN IdColor;
+ALTER TABLE SaleItem DROP COLUMN IdSaleOrder;
+ALTER TABLE SaleItem DROP COLUMN IdFlower;ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD'; 
+
+--Just to make sure everything is OK
+ALTER TABLE CUSTOMER DROP COLUMN CustCity;
+ALTER TABLE CustCard DROP COLUMN IdCustomer;
+ALTER TABLE CustCard DROP COLUMN TypeOfCard;
+ALTER TABLE Employee DROP COLUMN EmpCity;
+ALTER TABLE SaleOrder DROP COLUMN IdCustomer;
+ALTER TABLE SaleOrder DROP COLUMN IdEmployee;
+ALTER TABLE SaleOrder DROP COLUMN IdShipCity;
+ALTER TABLE Flower DROP COLUMN IdColor;
+ALTER TABLE SaleItem DROP COLUMN IdSaleOrder;
+ALTER TABLE SaleItem DROP COLUMN IdFlower;
+ALTER TABLE Supplier DROP COLUMN SupCity;
+ALTER TABLE Purchase DROP COLUMN IdSupplier;
+ALTER TABLE Purchase DROP COLUMN IdStatus;
+ALTER TABLE PurchaseItem DROP COLUMN IdPurchase;
+ALTER TABLE PurchaseItem DROP COLUMN IdFlower;
+DROP TABLE  LoyaltyCard;
+DROP TABLE  City;
+DROP TABLE  Customer;
+DROP TABLE  CustCard;
+DROP TABLE  Employee;
+DROP TABLE  SaleOrder;
+DROP TABLE  Color;
+DROP TABLE  Flower;
+DROP TABLE  SaleItem;
+DROP TABLE  Supplier;
+DROP TABLE  DeliveryStatus;
+DROP TABLE  Purchase;
+DROP TABLE  PurchaseItem;
+
+-----------------------------------------------
+
+--CREATES TABLES 
+
+CREATE TABLE LoyaltyCard (
+    TypeOfCard varchar2(50) PRIMARY KEY,
+    Discount INT
+);
+
+INSERT INTO LoyaltyCard VALUES ('Bronze', 5);
+INSERT INTO LoyaltyCard VALUES ('Silver', 7);
+INSERT INTO LoyaltyCard VALUES ('Gold', 10);
+
+CREATE TABLE City (
+    IdCity varchar2(10) PRIMARY KEY,
+    City varchar2(40)
+);
+
+INSERT INTO City VALUES('WA', 'Warsaw');
+INSERT INTO City VALUES('KR', 'Krakow');
+INSERT INTO City VALUES('WR', 'Wroclaw');
+
+CREATE TABLE Customer (
+    IdCustomer INT PRIMARY KEY,
+    CustName varchar2(100),
+    CustSurname varchar2(100),
+    CustAddress varchar2(400),
+    CustCity varchar2(10) REFERENCES City (IdCity),
+    CustPhoneNo varchar2(20)
+);
+
+INSERT INTO Customer VALUES (1001, 'Anna', 'Smith', 'Sasanki 1', 'WA', '729 382 392');
+INSERT INTO Customer VALUES (1002, 'Asia', 'Brown', 'Koszykowa 2', 'WA', '123 523 432');
+INSERT INTO Customer VALUES (1003, 'Gosia', 'Miller', 'Wawelska 3', 'WA', '543 322 342');
+INSERT INTO Customer VALUES (1004, 'Jakub', 'Johnson', 'Wronia 4', 'WA', '876 423 458');
+INSERT INTO Customer VALUES (1005, 'Leon', 'Jones', 'Marszalkowska 5', 'WA', '765 324 542');
+INSERT INTO Customer VALUES (1006, 'Dawid', 'Davis', 'Krakusa 6', 'KR', '343 432 543');
+INSERT INTO Customer VALUES (1007, 'Philip', 'Williams', 'Celna 7', 'KR', '654 342 543');
+INSERT INTO Customer VALUES (1008, 'Joanna', 'Wilson', 'Rybaki 8', 'KR', '729 423 134');
+INSERT INTO Customer VALUES (1009, 'Julia', 'Smith', 'Ruska 9', 'WR', '729 452 543');
+
+CREATE TABLE CustCard (
+    IdCard INT PRIMARY KEY,
+    TypeOfCard varchar2(50) REFERENCES LoyaltyCard(TypeOfCard),
+    IdCustomer INT REFERENCES Customer(IdCustomer),
+    DateOfIssue date,
+    DateOfExpire date
+);
+
+INSERT INTO CustCard VALUES (1101, 'Bronze', 1001, TO_DATE('2018-01-01'), TO_DATE('2020-01-01'));
+INSERT INTO CustCard VALUES (1102, 'Silver', 1002, TO_DATE('2018-02-01'), TO_DATE('2023-02-01'));
+INSERT INTO CustCard VALUES (1103, 'Gold', 1003, TO_DATE('2018-01-01'), TO_DATE('2023-01-01'));
+
+CREATE TABLE Employee (
+    IdEmployee INT PRIMARY KEY,
+    EmpName varchar2(100),
+    EmpSurname varchar2(100),
+    EmpDateOfBirth date,
+    EmpAddress varchar2(400),
+    EmpCity varchar2(10) REFERENCES City (IdCity),
+    EmpPhoneNo varchar2(20),
+    Salary INT
+) ;
+
+INSERT INTO Employee VALUES (2001, 'Taras', 'Smith', TO_DATE('1995-02-03'), 'Wilanowska 3', 'WA', '234 453 234', 1000);
+INSERT INTO Employee VALUES (2002, 'Anna', 'Jones', TO_DATE('1993-04-03'), 'Centrum 1', 'WA', '243 421 434', 1200);
+INSERT INTO Employee VALUES (2003, 'Zuzanka', 'Brown', TO_DATE('1996-01-02'), 'Sluzew 4', 'WA', '765 453 684', 1000);
+
+CREATE TABLE SaleOrder (
+    IdSaleOrder INT PRIMARY KEY,
+    IdCustomer INT REFERENCES Customer (IdCustomer),
+    IdEmployee INT REFERENCES Employee (IdEmployee),
+    DateOfOrder date,
+    DateOfReceive date,
+    ShipFee number(6,2) NULL,
+    ShipAddress varchar2(200) NULL,
+    IdShipCity varchar2(10) REFERENCES City (IdCity)
+) ;
+
+INSERT INTO SaleOrder VALUES (3001, 1001, 2001, TO_DATE('2018-05-28'), TO_DATE('2018-06-01'), 10.00, 'Wilanowska 10', 'WA');
+INSERT INTO SaleOrder VALUES (3002, 1003, 2001, TO_DATE('2018-05-20'), TO_DATE('2018-06-02'), 0, NULL, 'WA');
+INSERT INTO SaleOrder VALUES (3003, 1003, 2001, TO_DATE('2018-05-21'), TO_DATE('2018-06-03'), 10.00, 'Centrum 3', 'WA');
+INSERT INTO SaleOrder VALUES (3004, 1003, 2001, TO_DATE('2018-05-12'), TO_DATE('2018-05-28'), 20.00, 'Chmiela 8', 'WA');
+INSERT INTO SaleOrder VALUES (3005, 1003, 2001, TO_DATE('2018-06-01'), TO_DATE('2018-06-04'), 15.00, 'Koszykowa 86', 'WA');
+
+CREATE TABLE Color (
+    IdColor INT  PRIMARY KEY,
+    Color varchar2(40)
+) ;
+
+INSERT INTO Color VALUES (4101, 'White');
+INSERT INTO Color VALUES (4102, 'Red');
+INSERT INTO Color VALUES (4103, 'Yellow');
+INSERT INTO Color VALUES (4104, 'Purple');
+
+CREATE TABLE Flower (
+    IdFlower INT PRIMARY KEY,
+    IdColor INT REFERENCES Color (IdColor),
+    FlowerName varchar2(100),
+    Price number(6,2)
+) ;
+
+INSERT INTO Flower VALUES (4001, 4101, 'Daisy', 10.00);
+INSERT INTO Flower VALUES (4002, 4101, 'Aster', 12.00);
+INSERT INTO Flower VALUES (4003, 4102, 'Rose', 8.00);
+INSERT INTO Flower VALUES (4004, 4103, 'Sun Flower', 10.00);
+INSERT INTO Flower VALUES (4005, 4104, 'Aster', 10.00);
+
+CREATE TABLE SaleItem (
+    IdSaleItem INT PRIMARY KEY,
+    IdSaleOrder INT REFERENCES SaleOrder (IdSaleOrder),
+    IdFlower INT REFERENCES Flower (IdFlower),
+    SaleQuantity INT 
+) ;
+
+INSERT INTO SaleItem VALUES (3101, 3001, 4001, 10);
+INSERT INTO SaleItem VALUES (3102, 3001, 4002, 50);
+INSERT INTO SaleItem VALUES (3103, 3001, 4003, 10);
+
+INSERT INTO SaleItem VALUES (3104, 3002, 4003, 30);
+INSERT INTO SaleItem VALUES (3105, 3002, 4002, 20);
+INSERT INTO SaleItem VALUES (3106, 3002, 4005, 10);
+
+INSERT INTO SaleItem VALUES (3107, 3003, 4002, 50);
+
+INSERT INTO SaleItem VALUES (3108, 3004, 4001, 100);
+
+INSERT INTO SaleItem VALUES (3109, 3005, 4003, 40);
+
+CREATE TABLE Supplier (
+    IdSupplier INT PRIMARY KEY,
+    SupName varchar2(100),
+    SupPhoneNo varchar2(20),
+    SupAddress varchar2(100),
+    SupCity varchar2(10) REFERENCES City(IdCity),
+    SupEmail varchar2(100)
+) ;
+
+INSERT INTO Supplier VALUES (5001, 'ABC Company', '323 341 342', 'Pokoju 91', 'KR', 'abccompany@gmail.com');
+INSERT INTO Supplier VALUES (5002, 'WE Company', '348 594 442', 'Grodzka 9', 'WR', 'wecompany@gmail.com');
+INSERT INTO Supplier VALUES (5003, 'Flower Company', '524 542 245', 'Bananowa 8', 'WA', 'flowercompany@gmail.com');
+
+CREATE TABLE DeliveryStatus (
+    IdStatus INT PRIMARY KEY,
+    Status varchar2(400)
+) ;
+
+INSERT INTO DeliveryStatus VALUES (5101, 'Delivering');
+INSERT INTO DeliveryStatus VALUES (5102, 'Delayed');
+INSERT INTO DeliveryStatus VALUES (5103, 'Received');
+
+CREATE TABLE Purchase (
+    IdPurchase INT PRIMARY KEY,
+    IdSupplier INT  REFERENCES Supplier (IdSupplier),
+    DateOfPurchase date,
+    DateOfDelivery date,
+    IdStatus INT REFERENCES DeliveryStatus (IdStatus)
+) ;
+
+INSERT INTO Purchase VALUES (5201, 5001, TO_DATE('2018-03-04'), TO_DATE('2018-03-14'), 5103);
+INSERT INTO Purchase VALUES (5202, 5002, TO_DATE('2018-06-04'), TO_DATE('2018-06-10'), 5102);
+INSERT INTO Purchase VALUES (5203, 5003, TO_DATE('2018-06-10'), TO_DATE('2018-06-20'), 5101);
+
+CREATE TABLE PurchaseItem (
+    IdPurchaseItem INT PRIMARY KEY,
+    IdPurchase INT REFERENCES Purchase (IdPurchase),
+    IdFlower INT REFERENCES Flower (IdFlower),
+    PurchasePrice INT,
+    Quantity INT
+);
+
+INSERT INTO PurchaseItem VALUES (5301, 5201, 4001,  5.00, 1000);
+INSERT INTO PurchaseItem VALUES (5302, 5201, 4002,  8.00, 1000);
+INSERT INTO PurchaseItem VALUES (5303, 5201, 4003,  6.00, 500);
+
+INSERT INTO PurchaseItem VALUES (5304, 5202, 4004,  6.00, 500);
+INSERT INTO PurchaseItem VALUES (5305, 5202, 4005,  7.00, 1000);
+INSERT INTO PurchaseItem VALUES (5306, 5202, 4001,  6.00, 500);
+
+INSERT INTO PurchaseItem VALUES (5307, 5203, 4003,  6.00, 1000);
+INSERT INTO PurchaseItem VALUES (5308, 5203, 4002,  7.00, 1000);
+
+-----------------------------------------------
