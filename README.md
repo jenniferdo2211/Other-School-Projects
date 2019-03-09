@@ -1,1 +1,1 @@
-Some School Projects
+Some School Projects with Java
