@@ -1,0 +1,55 @@
+h1 {
+    text-align: center;
+}
+
+.center-align {
+    text-align: center;
+}
+
+.left-align {
+    text-align: left;
+}
+
+.right-align {
+    text-align: right;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+table {
+    width: 100%;
+    font-family: sans-serif;
+}
+
+th,
+td {
+    padding: 15px;
+}
+
+th {
+    background-color: green;
+    color: yellow;
+}
+
+button {
+    display: block;
+    margin: 20px auto;
+    background-color: green;
+    border: none;
+    padding: 10px;
+    color: yellow;
+}
+
+#unsubmittedReport {
+    border-left: 5px solid green;
+    background-color: #7CFC00;
+    padding: 30px;
+    visibility: hidden;
+    font-size: 20px;
+    font-family: sans-serif;
+}

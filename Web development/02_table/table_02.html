@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+		<link rel="stylesheet" type="text/css" href="table_02.css">
+		<script src="table_02.js"></script>
+    </head>
+
+    <body>
+
+        <h1>CS230 - LAB 3 - ASSIGNMENT 2</h1>
+
+        <table id="table">
+
+            <tr>
+                <th class="center-align" contenteditable="false" onclick="selectTheColumn(0)">Student Name</th>
+                <th class="center-align" contenteditable="false" onclick="selectTheColumn(1)">Student ID</th>
+                <th class="center-align" contenteditable="false" onclick="selectTheColumn(2)">Assignment 1</th>
+                <th class="center-align" contenteditable="false">Final Grade</th>
+            </tr>
+
+            <tr onclick="selectTheRow(this)">
+                <td class="left-align" contenteditable="true">-</td>
+                <td class="left-align" contenteditable="true">-</td>
+                <td class="right-align" contenteditable="true" onkeyup="finalGrade()">-</td>
+                <td class="right-align" contenteditable="false">-</td>
+            </tr>
+
+
+
+        </table>
+
+        <button onclick="finalGrade()">Calculate Final Grades</button>
+
+        <!-- //extra credit: number 2 -->
+        <button onclick="unSubmittedAssignment()">Check Unsubmitted Assignments</button>
+        <p id="unsubmittedReport"></p>
+
+        <!-- Assignment 2 LAB 4 -->
+        <button onclick="insertARow()">Insert A Row</button>
+        <button onclick="insertAColumn()">Insert A Column</button>
+
+        <button onclick="saveChanges()">Save Changes</button>
+        <button onclick="undoTable()">Back To Previous State</button>
+
+        <!-- Extra credit -->
+        <button onclick="deleteRow()">Delete Selected Row</button>
+        <button onclick="deleteColumn()">Delete Selected Column</button>
+    </body>
+
+</html>
