@@ -1,0 +1,107 @@
+form {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  margin: 30px auto;
+  width: 75%;
+}
+
+form p {
+  font-size: 20px;
+  font-weight: 1000;
+  margin: 30px;
+}
+
+form label {
+  display: block;
+  text-align: left;
+  margin: 15px 30px 3px 30px;
+  font-size: 15px;
+}
+
+form input {
+  font-size: 15px;
+  height: 20px;
+  width: 75%;
+  border-radius: 5px;
+  border: 1px solid;
+  margin-left: 30px;
+}
+
+#description {
+  font-size: 15px;
+  border-radius: 5px;
+  border: 1px solid;
+  width: 75%;
+  margin-left: 30px;
+}
+
+#submit {
+  display: block;
+  margin: 20px 30px;
+  width: auto;
+  background: #4CAF50;
+  color: white;
+  height: 30px;
+}
+
+.error {
+  color: red;
+}
+
+#books {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+#books td, #books th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+#books tr:nth-child(even){background-color: #f2f2f2;}
+  
+#books tr:hover {background-color: #ddd;}
+  
+#books th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color: #4CAF50;
+    color: white;
+  }
+
+form button,.edit-btn, .delete-btn {
+  border: solid 1px;
+  border-radius: 5px;
+  padding: 5px;
+  color: white;
+}
+
+.table-btn {
+  text-align: center;
+  width: 70px;
+  margin-left: 5px; 
+  margin-right: 5px; 
+}
+
+
+.edit-btn {
+  background: blue;
+}
+
+.delete-btn {
+  background: red;
+}
+
+.msg {
+  border: 1px solid;
+  border-radius: 3px;
+  color: white;
+  background-color: #4CAF50;
+  width: 50%;
+  height: 20px;
+  font-size: 20px;
+  margin: 5px auto;
+  text-align: center;
+  padding: 10px;
+}
